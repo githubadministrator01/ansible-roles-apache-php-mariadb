@@ -1,0 +1,16 @@
+web ansible_host=192.168.90.20 
+db  ansible_host=192.168.90.30 
+
+[web_servers]
+web
+
+[db_servers]
+db
+
+[servers:children]
+web_servers
+db_servers
+
+[servers:vars]
+ansible_user=vagrant 
+ansible_ssh_pass=vagrant

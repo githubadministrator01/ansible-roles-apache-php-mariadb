@@ -1,0 +1,47 @@
+---
+- name: "Install epel-release"
+  yum:
+    name: epel-release
+    state: present
+
+- name: "Install apache web servers"
+  yum:
+    name: httpd
+    state: present
+
+- name: "Install php for apache web_servers"
+  yum:
+    name: [ 'php', 'php-cli', 'php-curl', 'php-fpm', 'php-pdo', 'php-gd', 'php-mysqlnd' ]
+    state: latest
+
+- name: "Open Firewall port 80"
+  firewalld:
+    service: http
+    state: enabled
+    permanent: yes
+    immediate: yes
+
+- name: "Copy site content to html/"
+  copy:
+    src: "files/"
+    dest: "/var/www/html"
+
+- name: "move sites/index.html to /var/www/html/"
+  template:
+    src: "templates/index.html.j2"
+    dest: "/var/www/html/index.html"
+    mode: 0755
+
+- name: "Move template phpconnect.php to html/"
+  template:
+    src: "templates/phpconnect.php.j2"
+    dest: "/var/www/html/phpconnect.php"
+    mode: 0755
+  notify:
+    - Restart apache
+
+- name: "Start and enable apache service"
+  service:
+    name: httpd
+    enabled: yes
+    state: started

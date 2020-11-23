@@ -1,0 +1,45 @@
+---
+- name: "Install epel-release and python"
+  yum:
+    name: 
+      - epel-release
+      - python3
+    state: present
+
+- name: "Install mysql db server"
+  yum:
+    name: 
+      - mariadb-server
+      - python3-PyMySQL
+    state: latest
+
+- name: "Start and enable mariadb service"
+  service: 
+    name: mariadb
+    enabled: yes
+    state: started
+            
+- name: Sets the root password
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    user: root
+    password: "{{ mysql_root_password }}"
+    update_password: always
+    check_implicit_admin: true
+    host: "localhost"
+    priv: "*.*:ALL,GRANT"
+            
+- name: Create a new database with name 'mydb'
+  mysql_db:
+    name: mydb
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    state: present    
+
+- name: "Open Firewall port 3306"
+  firewalld:
+    port: 3306/tcp
+    state: enabled
+    permanent: yes
+    immediate: yes      

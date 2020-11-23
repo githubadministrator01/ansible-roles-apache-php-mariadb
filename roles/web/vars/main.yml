@@ -1,0 +1,5 @@
+OS_DISTRIBUTION: "CentOS-8"
+mydbname: "mydb"
+myuser: "root"
+mypass: "Password1"
+myhost: "db"
