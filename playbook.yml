@@ -1,12 +1,12 @@
 ---
-- name: "Install and configure apache server"
-  hosts: web_servers
-  become: True
-  roles:
-    - roles/web
-
-- name: "Install and configure mariadb database server"
+- name: "Install and configure database server"
   hosts: db_servers
   become: True
   roles:
     - roles/db
+
+- name: "Install and configure web server"
+  hosts: web_servers
+  become: True
+  roles:
+    - roles/web
