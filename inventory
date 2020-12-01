@@ -1,8 +1,8 @@
 web ansible_host=192.168.90.20     # example IP
 db  ansible_host=192.168.90.30     # Example IP
 
-[web_servers]
-web
+[web_servers]                     
+web                                # example Hostname
 
 [db_servers]
 db
